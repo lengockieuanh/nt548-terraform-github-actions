@@ -18,7 +18,7 @@ variable "role_name" {
 variable "secret_arns" {
   type        = list(string)
   description = "List of ARNs for the secrets that this role can access"
-  default     = [] # Empty default is safer
+  default     = [] 
 }
 
 variable "tags" {

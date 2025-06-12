@@ -1,4 +1,3 @@
-### Common Variables
 variable "region" {
   type        = string
   description = "AWS Region"
@@ -11,7 +10,6 @@ variable "environment" {
   default     = "dev"
 }
 
-### VPC Variables
 variable "vpc_cidr" {
   type        = string
   description = "CIDR block for VPC"

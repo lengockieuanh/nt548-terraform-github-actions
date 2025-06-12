@@ -9,10 +9,10 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "nt548-terraform-lab2-group10" # Changed bucket name
+    bucket         = "nt548-terraform-lab2-group10" 
     key            = "terraform.tfstate"
     region         = "ap-southeast-1"
-    dynamodb_table = "terraform_state_lock" # Changed table name
+    dynamodb_table = "terraform_state_lock"
     encrypt        = true
   }
 }
@@ -21,7 +21,7 @@ provider "aws" {
   region = var.region
 }
 
-### Declare the VPC module
+### VPC module
 module "vpc_module" {
   source              = "./modules/vpc"
   region              = var.region
@@ -31,7 +31,7 @@ module "vpc_module" {
 }
 
 
-### Declare the NAT Gateway module
+### NAT Gateway module
 module "nat_gateway_module" {
   source     = "./modules/nat_gateway"
   region     = var.region
@@ -39,7 +39,7 @@ module "nat_gateway_module" {
 }
 
 
-### Declare the Route table module
+### Route table module
 module "route_table_module" {
   source             = "./modules/route_tables"
   region             = var.region
@@ -50,20 +50,20 @@ module "route_table_module" {
   private_subnet_ids = module.vpc_module.private_subnet_id[0]
 }
 
-### Declare the Security Group module
+### Security Group module
 module "security_group_module" {
   source     = "./modules/security_groups"
   vpc_id     = module.vpc_module.vpc_id
   cidr_block = var.cidr_block
 }
 
-### Declare the IAM module
+### IAM module
 module "iam_module" {
   source      = "./modules/iam"
   environment = var.environment
 }
 
-### Declare the EC2 module
+### EC2 module
 module "ec2_module" {
   source      = "./modules/ec2"
   environment = var.environment
@@ -76,7 +76,7 @@ module "ec2_module" {
     instance_type          = var.instances_configuration[0].instance_type
     root_block_device      = var.instances_configuration[0].root_block_device
     tags                   = var.instances_configuration[0].tags
-    vpc_security_group_ids = [module.security_group_module.public_sg_id] # Changed from public_ssh_sg_id
+    vpc_security_group_ids = [module.security_group_module.public_sg_id] 
     subnet_id              = module.vpc_module.public_subnet_id[0]
     user_data_file         = var.instances_configuration[0].user_data_file
     key_name               = var.instances_configuration[0].key_name
@@ -89,7 +89,7 @@ module "ec2_module" {
       instance_type          = var.instances_configuration[1].instance_type
       root_block_device      = var.instances_configuration[1].root_block_device
       tags                   = var.instances_configuration[1].tags
-      vpc_security_group_ids = [module.security_group_module.private_sg_id] # Changed from private_ssh_sg_id
+      vpc_security_group_ids = [module.security_group_module.private_sg_id] 
       subnet_id              = module.vpc_module.private_subnet_id[0]
       user_data_file         = var.instances_configuration[1].user_data_file
       key_name               = var.instances_configuration[1].key_name
