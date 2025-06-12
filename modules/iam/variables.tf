@@ -1,7 +1,7 @@
 variable "region" {
   type        = string
   default     = "ap-southeast-1"
-  description = "Region of IAM role"  
+  description = "Region of IAM role"
 }
 
 variable "environment" {
@@ -18,7 +18,7 @@ variable "role_name" {
 variable "secret_arns" {
   type        = list(string)
   description = "List of ARNs for the secrets that this role can access"
-  default     = []  # Empty default is safer
+  default     = [] # Empty default is safer
 }
 
 variable "tags" {

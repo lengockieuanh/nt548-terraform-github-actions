@@ -15,7 +15,7 @@ resource "aws_vpc" "vpc" {
   tags = {
     Name = "${local.project_name}-vpc"
   }
-  
+
 }
 
 resource "aws_subnet" "public_subnet" {

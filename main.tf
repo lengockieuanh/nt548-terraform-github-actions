@@ -1,4 +1,13 @@
 terraform {
+  required_version = ">= 1.0"
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">=5.46"
+    }
+  }
+
   backend "s3" {
     bucket         = "nt548-terraform-lab2-group10" # Changed bucket name
     key            = "terraform.tfstate"
@@ -6,6 +15,10 @@ terraform {
     dynamodb_table = "terraform_state_lock" # Changed table name
     encrypt        = true
   }
+}
+
+provider "aws" {
+  region = var.region
 }
 
 ### Declare the VPC module
@@ -44,6 +57,12 @@ module "security_group_module" {
   cidr_block = var.cidr_block
 }
 
+### Declare the IAM module
+module "iam_module" {
+  source      = "./modules/iam"
+  environment = var.environment
+}
+
 ### Declare the EC2 module
 module "ec2_module" {
   source      = "./modules/ec2"
@@ -62,7 +81,7 @@ module "ec2_module" {
     user_data_file         = var.instances_configuration[0].user_data_file
     key_name               = var.instances_configuration[0].key_name
     associate_elastic_ip   = var.instances_configuration[0].associate_elastic_ip
-    iam_instance_profile   = var.instances_configuration[0].iam_instance_profile
+    iam_instance_profile   = module.iam_module.instance_profile_name
     },
     {
       count                  = var.instances_configuration[1].count

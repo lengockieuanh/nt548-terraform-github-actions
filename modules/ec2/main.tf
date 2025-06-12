@@ -1,7 +1,3 @@
-provider "aws" {
-  region = var.region
-}
-
 locals {
   project_name = "lab02-group10"
 }
@@ -13,7 +9,7 @@ resource "aws_instance" "ec2_instance" {
   instance_type          = each.value.instance_type
   subnet_id              = each.value.subnet_id
   vpc_security_group_ids = each.value.vpc_security_group_ids
-  key_name              = each.value.key_name
+  key_name               = each.value.key_name
 
   root_block_device {
     volume_size           = each.value.root_block_device.volume_size
@@ -24,7 +20,7 @@ resource "aws_instance" "ec2_instance" {
   metadata_options {
     http_tokens                 = "required"
     http_put_response_hop_limit = 1
-    http_endpoint              = "enabled"
+    http_endpoint               = "enabled"
   }
 
   tags = merge(
@@ -38,7 +34,7 @@ resource "aws_instance" "ec2_instance" {
   associate_public_ip_address = each.value.associate_elastic_ip
   iam_instance_profile        = each.value.iam_instance_profile
   monitoring                  = true
-  ebs_optimized              = true
+  ebs_optimized               = true
 }
 
 # Resource to create Elastic IPs only for instances with associate_elastic_ip = true
