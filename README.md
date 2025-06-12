@@ -82,11 +82,7 @@ terraform apply -auto-approve
    - Infrastructure plan and apply
 
 ## SSH Access Guide
-After apply all nested module, you will see an output similar to the one below:
-SSH to public instance
-- Locate your private key file (.pem)
-- Run this command
-1. **Set Key Permissions (Windows)**
+1. **Set Key Permissions**
 ```bash
 chmod 400 <private-key-file>
 ```
